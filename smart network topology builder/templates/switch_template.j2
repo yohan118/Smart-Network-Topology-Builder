@@ -1,0 +1,26 @@
+!
+hostname {{ hostname }}
+!
+enable secret cisco123
+!
+{% for vlan in vlans %}
+vlan {{ vlan.vlan }}
+ name {{ vlan.department_clean }}
+!
+{% endfor %}
+vlan 99
+ name NATIVE
+!
+{% for vlan in vlans %}
+interface range FastEthernet0/{{ vlan.start_port }} - {{ vlan.end_port }}
+ switchport mode access
+ switchport access vlan {{ vlan.vlan }}
+ switchport port-security
+ switchport port-security maximum 2
+!
+{% endfor %}
+interface GigabitEthernet0/1
+ switchport mode trunk
+ switchport trunk native vlan 99
+!
+end
