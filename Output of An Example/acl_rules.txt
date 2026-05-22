@@ -1,0 +1,6 @@
+ip access-list extended SECURITY_POLICY
+ deny ip 192.168.1.64 0.0.0.63 192.168.1.128 0.0.0.31
+ deny ip 192.168.1.192 0.0.0.31 192.168.0.0 0.0.255.255
+ permit ip 192.168.1.0 0.0.0.31 192.168.1.176 0.0.0.15
+ deny ip any 192.168.1.176 0.0.0.15
+ permit ip any any

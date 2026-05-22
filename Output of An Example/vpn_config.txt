@@ -1,0 +1,14 @@
+VPN / IPSec Configuration Summary
+=================================
+
+WAN Link to Branch 1
+ HQ peer: 10.0.0.1
+ Branch peer: 10.0.0.2
+ Encryption: AES
+ Auth: pre-share key vpnkey123
+
+WAN Link to Branch 2
+ HQ peer: 10.0.0.5
+ Branch peer: 10.0.0.6
+ Encryption: AES
+ Auth: pre-share key vpnkey123

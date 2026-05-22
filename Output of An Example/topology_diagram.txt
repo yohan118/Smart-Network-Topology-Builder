@@ -1,0 +1,40 @@
+=========================================
+ NETWORK TOPOLOGY - TechCorp
+=========================================
+
+[HQ Router] (192.168.1.1)
+    |
+[HQ Core Switch]
+  +-- VLAN 10 - IT                    192.168.1.0/27
+  +-- VLAN 20 - HR                    192.168.1.64/26
+  +-- VLAN 30 - Finance               192.168.1.128/27
+  +-- VLAN 40 - Management            192.168.1.160/28
+  +-- VLAN 50 - Servers               192.168.1.176/28
+  +-- VLAN 60 - Guest WiFi            192.168.1.192/27
+
+  WAN Link to Branch 1  (10.0.0.0/30)
+      HQ 10.0.0.1 <-----> Branch 10.0.0.2
+  WAN Link to Branch 2  (10.0.0.4/30)
+      HQ 10.0.0.5 <-----> Branch 10.0.0.6
+
+-----------------------------------------
+[Branch 1 Router]
+    |
+[Branch 1 Switch]
+  +-- VLAN 10 - IT                    192.168.2.0/27
+  +-- VLAN 20 - HR                    192.168.2.64/26
+  +-- VLAN 30 - Finance               192.168.2.128/27
+  +-- VLAN 40 - Management            192.168.2.160/28
+  +-- VLAN 50 - Servers               192.168.2.176/28
+  +-- VLAN 60 - Guest WiFi            192.168.2.192/27
+
+-----------------------------------------
+[Branch 2 Router]
+    |
+[Branch 2 Switch]
+  +-- VLAN 10 - IT                    192.168.3.0/27
+  +-- VLAN 20 - HR                    192.168.3.64/26
+  +-- VLAN 30 - Finance               192.168.3.128/27
+  +-- VLAN 40 - Management            192.168.3.160/28
+  +-- VLAN 50 - Servers               192.168.3.176/28
+  +-- VLAN 60 - Guest WiFi            192.168.3.192/27

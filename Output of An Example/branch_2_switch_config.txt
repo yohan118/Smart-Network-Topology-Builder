@@ -1,0 +1,81 @@
+!
+hostname Branch_2_Switch
+!
+enable secret cisco123
+!
+
+vlan 10
+ name IT
+!
+
+vlan 20
+ name HR
+!
+
+vlan 30
+ name FINANCE
+!
+
+vlan 40
+ name MANAGEMENT
+!
+
+vlan 50
+ name SERVERS
+!
+
+vlan 60
+ name GUEST_WIFI
+!
+
+vlan 99
+ name NATIVE
+!
+
+interface range FastEthernet0/1 - 10
+ switchport mode access
+ switchport access vlan 10
+ switchport port-security
+ switchport port-security maximum 2
+!
+
+interface range FastEthernet0/11 - 20
+ switchport mode access
+ switchport access vlan 20
+ switchport port-security
+ switchport port-security maximum 2
+!
+
+interface range FastEthernet0/21 - 30
+ switchport mode access
+ switchport access vlan 30
+ switchport port-security
+ switchport port-security maximum 2
+!
+
+interface range FastEthernet0/31 - 40
+ switchport mode access
+ switchport access vlan 40
+ switchport port-security
+ switchport port-security maximum 2
+!
+
+interface range FastEthernet0/41 - 50
+ switchport mode access
+ switchport access vlan 50
+ switchport port-security
+ switchport port-security maximum 2
+!
+
+interface range FastEthernet0/51 - 60
+ switchport mode access
+ switchport access vlan 60
+ switchport port-security
+ switchport port-security maximum 2
+!
+
+interface GigabitEthernet0/1
+ switchport mode trunk
+ switchport trunk native vlan 99
+!
+end

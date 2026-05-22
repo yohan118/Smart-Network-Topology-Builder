@@ -1,0 +1,112 @@
+!
+hostname Branch_1_Router
+!
+enable secret cisco123
+!
+no ip domain-lookup
+!
+
+interface GigabitEthernet0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.2.1 255.255.255.224
+!
+
+interface GigabitEthernet0/0.20
+ encapsulation dot1Q 20
+ ip address 192.168.2.65 255.255.255.192
+!
+
+interface GigabitEthernet0/0.30
+ encapsulation dot1Q 30
+ ip address 192.168.2.129 255.255.255.224
+!
+
+interface GigabitEthernet0/0.40
+ encapsulation dot1Q 40
+ ip address 192.168.2.161 255.255.255.240
+!
+
+interface GigabitEthernet0/0.50
+ encapsulation dot1Q 50
+ ip address 192.168.2.177 255.255.255.240
+!
+
+interface GigabitEthernet0/0.60
+ encapsulation dot1Q 60
+ ip address 192.168.2.193 255.255.255.224
+!
+
+
+router ospf 1
+
+ network 192.168.2.0 0.0.0.31 area 0
+
+ network 192.168.2.64 0.0.0.63 area 0
+
+ network 192.168.2.128 0.0.0.31 area 0
+
+ network 192.168.2.160 0.0.0.15 area 0
+
+ network 192.168.2.176 0.0.0.15 area 0
+
+ network 192.168.2.192 0.0.0.31 area 0
+
+
+!
+
+ip dhcp pool IT_POOL
+ network 192.168.2.0 255.255.255.224
+ default-router 192.168.2.1
+ dns-server 8.8.8.8
+!
+
+ip dhcp pool HR_POOL
+ network 192.168.2.64 255.255.255.192
+ default-router 192.168.2.65
+ dns-server 8.8.8.8
+!
+
+ip dhcp pool FINANCE_POOL
+ network 192.168.2.128 255.255.255.224
+ default-router 192.168.2.129
+ dns-server 8.8.8.8
+!
+
+ip dhcp pool MANAGEMENT_POOL
+ network 192.168.2.160 255.255.255.240
+ default-router 192.168.2.161
+ dns-server 8.8.8.8
+!
+
+ip dhcp pool SERVERS_POOL
+ network 192.168.2.176 255.255.255.240
+ default-router 192.168.2.177
+ dns-server 8.8.8.8
+!
+
+ip dhcp pool GUEST_WIFI_POOL
+ network 192.168.2.192 255.255.255.224
+ default-router 192.168.2.193
+ dns-server 8.8.8.8
+!
+
+
+!
+
+crypto isakmp policy 10
+ encr aes
+ authentication pre-share
+ group 2
+crypto isakmp key vpnkey123 address 0.0.0.0
+crypto ipsec transform-set TSET esp-aes esp-sha-hmac
+
+!
+
+line con 0
+ password cisco
+ login
+line vty 0 4
+ password cisco
+ login
+!
+end

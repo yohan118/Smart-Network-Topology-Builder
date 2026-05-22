@@ -1,0 +1,148 @@
+!
+hostname HQ_Router
+!
+enable secret cisco123
+!
+no ip domain-lookup
+!
+
+interface GigabitEthernet0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.1.1 255.255.255.224
+!
+
+interface GigabitEthernet0/0.20
+ encapsulation dot1Q 20
+ ip address 192.168.1.65 255.255.255.192
+!
+
+interface GigabitEthernet0/0.30
+ encapsulation dot1Q 30
+ ip address 192.168.1.129 255.255.255.224
+!
+
+interface GigabitEthernet0/0.40
+ encapsulation dot1Q 40
+ ip address 192.168.1.161 255.255.255.240
+!
+
+interface GigabitEthernet0/0.50
+ encapsulation dot1Q 50
+ ip address 192.168.1.177 255.255.255.240
+!
+
+interface GigabitEthernet0/0.60
+ encapsulation dot1Q 60
+ ip address 192.168.1.193 255.255.255.224
+!
+
+
+interface Serial0/0/0
+ ip address 10.0.0.1 255.255.255.252
+ no shutdown
+!
+
+interface Serial0/0/1
+ ip address 10.0.0.5 255.255.255.252
+ no shutdown
+!
+
+router ospf 1
+
+ network 192.168.1.0 0.0.0.31 area 0
+
+ network 192.168.1.64 0.0.0.63 area 0
+
+ network 192.168.1.128 0.0.0.31 area 0
+
+ network 192.168.1.160 0.0.0.15 area 0
+
+ network 192.168.1.176 0.0.0.15 area 0
+
+ network 192.168.1.192 0.0.0.31 area 0
+
+
+ network 10.0.0.0 0.0.0.3 area 0
+
+ network 10.0.0.4 0.0.0.3 area 0
+
+!
+
+ip dhcp pool IT_POOL
+ network 192.168.1.0 255.255.255.224
+ default-router 192.168.1.1
+ dns-server 8.8.8.8
+!
+
+ip dhcp pool HR_POOL
+ network 192.168.1.64 255.255.255.192
+ default-router 192.168.1.65
+ dns-server 8.8.8.8
+!
+
+ip dhcp pool FINANCE_POOL
+ network 192.168.1.128 255.255.255.224
+ default-router 192.168.1.129
+ dns-server 8.8.8.8
+!
+
+ip dhcp pool MANAGEMENT_POOL
+ network 192.168.1.160 255.255.255.240
+ default-router 192.168.1.161
+ dns-server 8.8.8.8
+!
+
+ip dhcp pool SERVERS_POOL
+ network 192.168.1.176 255.255.255.240
+ default-router 192.168.1.177
+ dns-server 8.8.8.8
+!
+
+ip dhcp pool GUEST_WIFI_POOL
+ network 192.168.1.192 255.255.255.224
+ default-router 192.168.1.193
+ dns-server 8.8.8.8
+!
+
+
+ip access-list extended SECURITY_POLICY
+
+ deny ip 192.168.1.64 0.0.0.63 192.168.1.128 0.0.0.31
+
+ deny ip 192.168.1.192 0.0.0.31 192.168.0.0 0.0.255.255
+
+ permit ip 192.168.1.0 0.0.0.31 192.168.1.176 0.0.0.15
+
+ deny ip any 192.168.1.176 0.0.0.15
+
+ permit ip any any
+
+!
+
+crypto isakmp policy 10
+ encr aes
+ authentication pre-share
+ group 2
+crypto isakmp key vpnkey123 address 0.0.0.0
+crypto ipsec transform-set TSET esp-aes esp-sha-hmac
+
+crypto map VPNMAP 10 ipsec-isakmp
+ set peer 10.0.0.2
+ set transform-set TSET
+ match address 100
+
+crypto map VPNMAP 11 ipsec-isakmp
+ set peer 10.0.0.6
+ set transform-set TSET
+ match address 100
+
+!
+
+line con 0
+ password cisco
+ login
+line vty 0 4
+ password cisco
+ login
+!
+end
